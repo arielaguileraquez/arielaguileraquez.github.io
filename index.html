@@ -582,9 +582,10 @@
     });
   </script> -->
 
-  <div id="mensaje">El servidor está en mantenimiento o no responde. Intenta más tarde.</div>
-
-  <script>
+  <div id="mensaje" style="display:none; color:red; font-weight:bold;">
+    El servidor está en mantenimiento o no responde. Intenta más tarde.
+  </div>
+  <!-- <script>
     document.getElementById('serverLink').addEventListener('click', async (event) => {
       event.preventDefault(); // Evita que vaya directo al servidor
       const serverURL = event.target.href;
@@ -598,6 +599,23 @@
         window.location.href = "https://www.gesai.cl"; // Si responde bien → redirige
       } catch (error) {
         mensaje.style.display = "block"; // Mostramos mensaje solo si falla
+      }
+    });
+  </script> -->
+  <script>
+    document.getElementById('serverLink').addEventListener('click', async (event) => {
+      event.preventDefault();
+      const serverURL = event.target.href;
+      const mensaje = document.getElementById('mensaje');
+
+      mensaje.style.display = "none";
+
+      try {
+        const response = await fetch(serverURL, { method: "HEAD" });
+        if (!response.ok) throw new Error("Servidor no disponible");
+        window.location.href = "https://www.gesai.cl"; // Si está OK → redirige aquí
+      } catch (error) {
+        mensaje.style.display = "block"; // Mostramos mensaje si falla
       }
     });
   </script>
