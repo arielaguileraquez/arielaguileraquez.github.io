@@ -602,7 +602,7 @@
       }
     });
   </script> -->
-  <script>
+  <!-- <script>
     document.getElementById('serverLink').addEventListener('click', async (event) => {
       event.preventDefault();
       const serverURL = event.target.href;
@@ -616,6 +616,23 @@
         window.location.href = "https://www.gesai.cl"; // Si está OK → redirige aquí
       } catch (error) {
         mensaje.style.display = "block"; // Mostramos mensaje si falla
+      }
+    });
+  </script> -->
+  <button id="serverBtn">Ir al servidor</button>
+  <div id="mensaje" style="display:none; color:red;">Servidor caído</div>
+  
+  <script>
+    document.getElementById('serverBtn').addEventListener('click', async () => {
+      const mensaje = document.getElementById('mensaje');
+      mensaje.style.display = "none";
+      const serverURL = "https://geomatica.gesai.cl/";
+
+      try {
+        await fetch(serverURL, { method: "HEAD", mode: "no-cors" });
+        window.location.href = serverURL;
+      } catch (error) {
+        mensaje.style.display = "block";
       }
     });
   </script>
