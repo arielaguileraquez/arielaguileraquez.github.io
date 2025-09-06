@@ -558,7 +558,7 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
-  <script>
+  <!-- <script>
     document.getElementById('serverLink').addEventListener('click', async (event) => {
         event.preventDefault(); // Evita que vaya directo al servidor
         const serverURL = event.target.href;
@@ -571,7 +571,27 @@
             alert("El servidor está en mantenimiento o no responde. Intenta más tarde.");
         }
     });
-    </script>
+  </script> -->
+
+  <div id="mensaje">El servidor está en mantenimiento o no responde. Intenta más tarde.</div>
+
+  <script>
+    document.getElementById('serverLink').addEventListener('click', async (event) => {
+      event.preventDefault(); // Evita que vaya directo al servidor
+      const serverURL = event.target.href;
+      const mensaje = document.getElementById('mensaje');
+
+      mensaje.style.display = "none"; // Ocultamos mensaje si estaba antes
+
+      try {
+        const response = await fetch(serverURL, { method: "HEAD" });
+        if (!response.ok) throw new Error("Servidor no disponible");
+        window.location.href = serverURL; // Si responde bien → redirige
+      } catch (error) {
+        mensaje.style.display = "block"; // Mostramos mensaje solo si falla
+      }
+    });
+  </script>
 
 </body>
 
