@@ -371,10 +371,10 @@
 
   
     <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">GESAI</strong> <span>All Rights Reserved</span></p>
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">GESAI</strong> <span>Derechos Reservados</span></p>
       <div class="credits">
         
-        Designed by <a href="">AAQ</a>
+        Diseñado Por <a href="">AQ</a>
       </div>
     </div>
 
@@ -398,103 +398,8 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
-  <!-- <script>
-    document.getElementById('serverLink').addEventListener('click', async (event) => {
-        event.preventDefault(); // Evita que vaya directo al servidor
-        const serverURL = event.target.href;
-
-        try {
-            const response = await fetch(serverURL, { method: "HEAD" });
-            if (!response.ok) throw new Error("Servidor no disponible");
-            window.location.href = serverURL; // Si responde bien → redirige
-        } catch (error) {
-            alert("El servidor está en mantenimiento o no responde. Intenta más tarde.");
-        }
-    });
-  </script> -->
-
-  <div id="mensaje" style="display:none; color:red; font-weight:bold;">
-    El servidor está en mantenimiento o no responde. Intenta más tarde.
-  </div>
-  <!-- <script>
-    document.getElementById('serverLink').addEventListener('click', async (event) => {
-      event.preventDefault(); // Evita que vaya directo al servidor
-      const serverURL = event.target.href;
-      const mensaje = document.getElementById('mensaje');
-
-      mensaje.style.display = "none"; // Ocultamos mensaje si estaba antes
-
-      try {
-        const response = await fetch(serverURL, { method: "HEAD" });
-        if (!response.ok) throw new Error("Servidor no disponible");
-        window.location.href = "https://www.gesai.cl"; // Si responde bien → redirige
-      } catch (error) {
-        mensaje.style.display = "block"; // Mostramos mensaje solo si falla
-      }
-    });
-  </script> -->
-  <!-- <script>
-    document.getElementById('serverLink').addEventListener('click', async (event) => {
-      event.preventDefault();
-      const serverURL = event.target.href;
-      const mensaje = document.getElementById('mensaje');
-
-      mensaje.style.display = "none";
-
-      try {
-        const response = await fetch(serverURL, { method: "HEAD" });
-        if (!response.ok) throw new Error("Servidor no disponible");
-        window.location.href = "https://www.gesai.cl"; // Si está OK → redirige aquí
-      } catch (error) {
-        mensaje.style.display = "block"; // Mostramos mensaje si falla
-      }
-    });
-  </script> -->
-  <button id="serverBtn">Ir al servidor</button>
-  <script>
-    // Función que hace fetch con timeout
-    async function checkServer(url, timeout = 2000) {
-      return new Promise((resolve, reject) => {
-        const timer = setTimeout(() => reject(new Error("Timeout")), timeout);
-        fetch(url, { method: "HEAD", mode: "no-cors" })
-          .then(() => {
-            clearTimeout(timer);
-            resolve();
-          })
-          .catch(err => {
-            clearTimeout(timer);
-            reject(err);
-          });
-      });
-    }
-
-    // Evento del botón
-    document.getElementById('serverBtn').addEventListener('click', async () => {
-      const mensaje = document.getElementById('mensaje');
-      mensaje.style.display = "none"; // Ocultar mensaje previo
-      const serverURL = "https://geomatica.gesai.cl/";
-
-      try {
-        await checkServer(serverURL, 2000); // Timeout de 2 segundos
-        window.location.href = serverURL; // Si responde → redirige
-      } catch (error) {
-        mensaje.style.display = "block"; // Si falla → mostrar mensaje
-      }
-    });
-  </script>
-
-  <script>
-    function fechaHoy(offset = 0) {
-      const hoy = new Date();
-      hoy.setDate(hoy.getDate() + offset);
-      const opciones = { month: 'short', day: 'numeric' };
-      return hoy.toLocaleDateString('en-US', opciones).toUpperCase();
-    }
-
-    document.getElementById('fecha1').textContent = fechaHoy();   // Hoy
-    document.getElementById('fecha2').textContent = fechaHoy(1);  // Mañana
-    document.getElementById('fecha3').textContent = fechaHoy(2);  // Pasado mañana
-  </script>
+ 
+ 
 
 </body>
 
