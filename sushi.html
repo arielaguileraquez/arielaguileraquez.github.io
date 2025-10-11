@@ -141,6 +141,11 @@ function mostrarCarrito(){
       <button onclick="eliminar(${carrito.indexOf(i)})">❌ Eliminar</button>
     </div>`;
   });
+
+  // Costo de reparto si aplica
+  const entrega=$('input[name="entrega"]:checked').value;
+  if(entrega==='reparto' && carrito.length>0) total+=1000;
+
   $('#total').innerText="Total: $"+total;
 }
 
@@ -148,6 +153,7 @@ function eliminar(i){carrito.splice(i,1); mostrarCarrito(); }
 
 $$('input[name="entrega"]').forEach(r=>r.addEventListener('change',()=>{
   $('#direccion').style.display=r.value==='reparto'?'block':'none';
+  mostrarCarrito(); // recalcula total dinámicamente
 }));
 
 function pagar(){
