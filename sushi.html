@@ -5,10 +5,24 @@
 <title>Handrolls Local</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
-body { font-family: Arial, sans-serif; background: #f9f9f9; color: #111; padding: 20px; }
+body { 
+  font-family: Arial, sans-serif; 
+  background: #f9f9f9; 
+  color: #111; 
+  padding: 20px; 
+}
+
 h1,h2 { color: #111; }
-.btn-primary { background:#111; color:#fff; border:none; }
-.btn-primary:hover { background:#333; }
+
+.btn-primary { 
+  background:#111; 
+  color:#fff; 
+  border:none; 
+}
+
+.btn-primary:hover { 
+  background:#333; 
+}
 
 .cart-panel {
   width: 320px;
@@ -25,23 +39,94 @@ h1,h2 { color: #111; }
   display:none;
   box-shadow:0 2px 10px rgba(0,0,0,0.15);
 }
-.cart-item { border-bottom:1px solid #eee; padding:8px 0; }
-#total { font-weight:bold; font-size:1.2rem; color:#111; }
-#precioModal { font-weight:bold; font-size:1.2rem; margin-top:10px; color:#111; }
-.pedido-rapido button { margin:5px; font-size:1rem; }
-#cantidad { width:60px; }
 
-/* Ajustes para móviles */
+.cart-item { 
+  border-bottom:1px solid #eee; 
+  padding:8px 0; 
+}
+
+#total { 
+  font-weight:bold; 
+  font-size:1.2rem; 
+  color:#111; 
+}
+
+#precioModal { 
+  font-weight:bold; 
+  font-size:1.2rem; 
+  margin-top:10px; 
+  color:#111; 
+}
+
+.pedido-rapido button { 
+  margin:5px; 
+  font-size:1rem; 
+}
+
+#cantidad { 
+  width:60px; 
+}
+
+/* ---------------- AJUSTES MÓVIL ---------------- */
 @media (max-width: 576px) {
-  #pedidoModal .modal-dialog { max-width:100%; margin:0; height:100%; }
-  #pedidoModal .modal-content { height:100%; border-radius:0; font-size:1.3rem; padding:1rem; }
-  #pedidoModal .modal-body { overflow-y:auto; }
-  #pedidoModal label { font-size:1.2rem; margin-bottom:0.5rem; }
-  #pedidoModal input[type="checkbox"] { transform:scale(1.5); margin-right:10px; }
-  #pedidoModal input[type="number"], #pedidoModal select, #pedidoModal button { font-size:1.2rem; padding:10px; }
-  .pedido-rapido button { font-size:1.2rem; padding:10px; }
-  .btn-lg { font-size:1.5rem; padding:15px 25px; }
-  .cart-panel { width:90%; right:5%; }
+
+  /* Modal full pantalla */
+  #pedidoModal .modal-dialog { 
+    max-width: 100%; 
+    margin: 0; 
+    height: 100%; 
+  }
+
+  #pedidoModal .modal-content { 
+    height: 100%; 
+    border-radius: 0; 
+    font-size: 1.2rem; 
+    padding: 1rem; 
+    display: flex; 
+    flex-direction: column; 
+  }
+
+  #pedidoModal .modal-body { 
+    flex: 1; 
+    overflow-y: auto; 
+  }
+
+  #pedidoModal label { 
+    font-size:1.2rem; 
+    margin-bottom:0.5rem; 
+  }
+
+  #pedidoModal input[type="checkbox"] { 
+    transform: scale(1.7); 
+    margin-right: 10px; 
+  }
+
+  #pedidoModal input[type="number"], 
+  #pedidoModal select, 
+  #pedidoModal button { 
+    font-size:1.2rem; 
+    padding:0.75rem 1rem; 
+  }
+
+  .pedido-rapido button { 
+    font-size:1.2rem; 
+    padding:0.5rem 1rem; 
+    margin-bottom:0.5rem;
+  }
+
+  .btn-lg { 
+    font-size:1.5rem; 
+    padding:15px 25px; 
+  }
+
+  .cart-panel { 
+    width:90%; 
+    right:5%; 
+    top:70px; 
+    max-height:80vh; 
+    padding:1rem; 
+  }
+
 }
 </style>
 </head>
