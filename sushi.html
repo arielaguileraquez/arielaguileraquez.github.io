@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Handrolls Local</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
 body { 
@@ -42,7 +43,7 @@ h1,h2 { color: #111; }
 
 .cart-item { 
   border-bottom:1px solid #eee; 
-  padding:8px 0; 
+  padding:6px 0; 
 }
 
 #total { 
@@ -70,7 +71,7 @@ h1,h2 { color: #111; }
 /* ---------------- AJUSTES MÓVIL ---------------- */
 @media (max-width: 576px) {
 
-  /* Modal full pantalla */
+  /* Modal fullscreen */
   #pedidoModal .modal-dialog { 
     max-width: 100%; 
     margin: 0; 
@@ -81,7 +82,6 @@ h1,h2 { color: #111; }
     height: 100%; 
     border-radius: 0; 
     font-size: 1.2rem; 
-    padding: 1rem; 
     display: flex; 
     flex-direction: column; 
   }
@@ -126,7 +126,6 @@ h1,h2 { color: #111; }
     max-height:80vh; 
     padding:1rem; 
   }
-
 }
 </style>
 </head>
@@ -135,7 +134,7 @@ h1,h2 { color: #111; }
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg bg-white shadow-sm mb-3">
   <div class="container-fluid d-flex justify-content-between align-items-center">
-    <a class="navbar-brand fw-bold text-dark" href="#">🍣 Handrolls</a>
+    <a class="navbar-brand fw-bold text-dark" href="#">🍣 Aki Sushi</a>
     <button id="cartBtn" class="btn btn-outline-dark position-relative">
       🛒 Carrito
       <span id="cartCount" class="badge bg-dark position-absolute top-0 start-100 translate-middle rounded-pill">0</span>
@@ -288,19 +287,26 @@ function agregarAlCarrito(){
 }
 
 function mostrarCarrito(){
-  const c = $('#carrito'); c.innerHTML=''; 
+  const c = $('#carrito'); 
+  c.innerHTML=''; 
   let total = 0;
+
   carrito.forEach((i,idx)=>{
-    const itemTotal=i.precio*i.cant;
+    const itemTotal = i.precio * i.cant;
     total += itemTotal;
+
+    const proteinasTxt = i.proteinas.join(', ');
+    const ingTxt = i.ingredientes.length > 0 ? i.ingredientes.join(', ') : '';
+
     c.innerHTML += `
       <div class="cart-item">
-        <b>${i.cant} x ${i.tipo.toUpperCase()}</b><br>
-        🐟 ${i.proteinas.join(', ')}<br>
-        🌿 ${i.ingredientes.join(', ') || 'sin ingredientes'}<br>
-        💰 $${itemTotal}
-        <button class="btn btn-sm btn-outline-dark ms-2" onclick="eliminar(${idx})">❌</button>
-      </div>`;
+        <div>
+          <b>${i.cant} x ${i.tipo.toUpperCase()}</b> (${proteinasTxt}) - $${itemTotal}
+          <button class="btn btn-sm btn-outline-dark ms-2" onclick="eliminar(${idx})">❌</button>
+        </div>
+        ${ingTxt ? `<div style="font-size:0.85rem; color:#666;">+ ${ingTxt}</div>` : ''}
+      </div>
+    `;
   });
 
   const entrega = $('input[name="entrega"]:checked').value;
@@ -308,7 +314,11 @@ function mostrarCarrito(){
   $('#total').innerText = "Total: $"+total;
 }
 
-function eliminar(i){ carrito.splice(i,1); mostrarCarrito(); $('#cartCount').textContent=carrito.length; }
+function eliminar(i){ 
+  carrito.splice(i,1); 
+  mostrarCarrito(); 
+  $('#cartCount').textContent=carrito.length; 
+}
 
 $$('input[name="entrega"]').forEach(r=>r.addEventListener('change',()=>{
   $('#direccion').style.display=r.value==='reparto'?'block':'none';
@@ -324,10 +334,13 @@ $('#cartBtn').addEventListener('click', ()=>{
   cartPanel.style.display = (cartPanel.style.display==='none'||cartPanel.style.display==='') ? 'block':'none';
 });
 
+function pagar(){
+  alert("Función de pago aún no implementada 😉");
+}
+
 actualizarPrecioModal();
 mostrarCarrito();
 </script>
 
 </body>
 </html>
-
