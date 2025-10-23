@@ -1,342 +1,133 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Aki Sushi | Pedidos</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<style>
-body { 
-  font-family: Arial, sans-serif; 
-  background: #f9f9f9; 
-  color: #111; 
-  padding: 20px; 
-}
-h1,h2 { color: #111; }
-.btn-primary { background:#111; color:#fff; border:none; }
-.btn-primary:hover { background:#333; }
-
-.cart-panel {
-  width: 320px; max-height: 90vh; overflow-y:auto;
-  position: fixed; top: 56px; right: 10px;
-  background: #fff; border:1px solid #ccc; border-radius:10px;
-  padding:15px; z-index:1055; display:none;
-  box-shadow:0 2px 10px rgba(0,0,0,0.15);
-}
-.cart-item { border-bottom:1px solid #eee; padding:6px 0; }
-#total { font-weight:bold; font-size:1.2rem; color:#111; }
-#precioModal { font-weight:bold; font-size:1.2rem; margin-top:10px; color:#111; }
-.pedido-rapido button { margin:5px; font-size:1rem; }
-#cantidad { width:60px; }
-
-/* MOBILE */
-@media (max-width: 576px) {
-  .modal-dialog { max-width: 100%; margin: 0; height: 100%; }
-  .modal-content { height: 100%; border-radius: 0; font-size: 1.2rem; display: flex; flex-direction: column; }
-  .modal-body { flex: 1; overflow-y: auto; }
-  .cart-panel { width:90%; right:5%; top:70px; max-height:80vh; padding:1rem; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedidos Sushi</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .modal-header {
+      background-color: #f8f9fa;
+    }
+    .precio-total {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #198754;
+    }
+  </style>
 </head>
-<body>
+<body class="bg-light">
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg bg-white shadow-sm mb-3">
-  <div class="container-fluid d-flex justify-content-between align-items-center">
-    <img src="logo.jpg" alt="Logo" style="height:60px;">
-    <span class="navbar-brand fw-bold text-dark">Aki Foods</span>
-    <button id="cartBtn" class="btn btn-outline-dark position-relative">
-      🛒
-      <span id="cartCount" class="badge bg-dark position-absolute top-0 start-100 translate-middle rounded-pill">0</span>
-    </button>
-  </div>
-</nav>
+  <div class="container py-5">
+    <h2 class="text-center mb-4">Haz tu pedido 🍣</h2>
 
-<!-- Carrito -->
-<div id="cartPanel" class="cart-panel shadow-sm">
-  <h5 class="text-center">🛒 Tu pedido</h5>
-  <div id="carrito"></div>
-  <p id="total">Total: $0</p>
-  <div class="mt-2">
-    <label><input type="radio" name="entrega" value="retiro" checked> Retiro en local</label><br>
-    <label><input type="radio" name="entrega" value="reparto"> Reparto (+$1000)</label>
-    <input id="direccion" class="form-control mt-2" placeholder="Dirección (si reparto)" style="display:none;">
-  </div>
-  <button class="btn btn-primary w-100 mt-3" onclick="pagar()">Pagar</button>
-</div>
-
-<!-- BOTONES DE PEDIDO -->
-<div class="d-flex flex-wrap justify-content-center align-items-center gap-3" style="min-height:70vh;">
-  <button class="btn btn-primary btn-lg d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modalHandroll" style="gap:10px;">
-    <img src="handrolls.jpg" alt="Handroll" style="height:60px;"> Handroll
-  </button>
-
-  <button class="btn btn-primary btn-lg d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modalPromosMixtas" style="gap:10px;">
-    <img src="promomixta.jpg" alt="Promos Mixtas" style="height:60px;"> Promos Mixtas
-  </button>
-
-  <button class="btn btn-primary btn-lg d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modalPromosFritas" style="gap:10px;">
-    <img src="promofrita.jpg" alt="Promos Fritas" style="height:60px;"> Promos Fritas
-  </button>
-
-  <button class="btn btn-primary btn-lg d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modalGohan" style="gap:10px;">
-    <img src="gohan.jpg" alt="Gohan" style="height:60px;"> Gohan
-  </button>
-
-  <button class="btn btn-primary btn-lg d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modalAcevichado" style="gap:10px;">
-    <img src="acevichado.jpg" alt="Sushi Acevichado" style="height:60px;"> Sushi Acevichado
-  </button>
-</div>
-
-<!-- ===========================================================
-     MODAL 1 - HANDROLL
-=========================================================== -->
-<div class="modal fade" id="modalHandroll" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
-    <div class="modal-content">
-      <div class="modal-header bg-dark text-white">
-        <h5 class="modal-title">Arma tu Handroll</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <div class="row g-3 justify-content-center">
+      <div class="col-md-3">
+        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#modalHandroll">Handroll</button>
       </div>
-      <div class="modal-body">
-        <label class="fw-bold">Tipo</label>
-        <select id="tipoHandroll" class="form-select mb-3">
-          <option value="bigpappa">Big Pappa (3 ingredientes)</option>
-          <option value="goliat">Goliat XL (4 ingredientes)</option>
-        </select>
+      <div class="col-md-3">
+        <button class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#modalGohan">Gohan</button>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#modalPromoMixta">Promo Mixta</button>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#modalAcevichado">Acevichado</button>
+      </div>
+    </div>
+  </div>
 
-        <h6>Proteínas</h6>
-        <div id="proteinasHandroll" class="d-flex flex-column">
-          <label><input type="checkbox" value="pollo"> Pollo</label>
-          <label><input type="checkbox" value="camaron"> Camarón</label>
-          <label><input type="checkbox" value="salmon"> Salmón</label>
+  <!-- ========== MODAL BASE ========= -->
+  <template id="modalBase">
+    <div class="modal fade" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label class="form-label">Cantidad:</label>
+                <input type="number" min="1" value="1" class="form-control cantidad">
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Adicionales:</label><br>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input adicional" type="checkbox" data-precio="1000" id="extraPalta">
+                  <label class="form-check-label" for="extraPalta">Palta +$1000</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input adicional" type="checkbox" data-precio="500" id="extraQueso">
+                  <label class="form-check-label" for="extraQueso">Queso crema +$500</label>
+                </div>
+              </div>
+
+              <div class="mt-4 d-flex justify-content-between align-items-center">
+                <div>Precio Base: <strong class="precio-base"></strong></div>
+                <div>Total: <span class="precio-total">$0</span></div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary">Agregar al pedido</button>
+          </div>
         </div>
-
-        <h6 class="mt-3">Extras</h6>
-        <div id="ingredientesHandroll" class="d-flex flex-column">
-          <label><input type="checkbox" value="palta"> Palta</label>
-          <label><input type="checkbox" value="queso_crema"> Queso Crema</label>
-          <label><input type="checkbox" value="cebollin"> Cebollín</label>
-        </div>
-
-        <label class="mt-3">Cantidad</label>
-        <input id="cantidadHandroll" type="number" min="1" value="1" class="form-control w-25">
-        <p id="precioHandroll">💰 Total actual: $0</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" onclick="agregarPedido('Handroll')">Agregar al carrito</button>
       </div>
     </div>
-  </div>
-</div>
+  </template>
 
-<!-- ===========================================================
-     MODAL 2 - PROMOS MIXTAS
-=========================================================== -->
-<div class="modal fade" id="modalPromosMixtas" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
-    <div class="modal-content">
-      <div class="modal-header bg-dark text-white">
-        <h5 class="modal-title">Promos Mixtas</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <h6>Elige tu promo:</h6>
-        <select id="promoMixta" class="form-select mb-3">
-          <option value="10 piezas mixtas">10 Piezas Mixtas - $6000</option>
-          <option value="20 piezas mixtas">20 Piezas Mixtas - $11000</option>
-          <option value="30 piezas mixtas">30 Piezas Mixtas - $16000</option>
-        </select>
-        <input id="cantidadMixta" type="number" min="1" value="1" class="form-control w-25">
-        <p id="precioMixta">💰 Total actual: $6000</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" onclick="agregarPedido('Promos Mixtas')">Agregar al carrito</button>
-      </div>
-    </div>
-  </div>
-</div>
+  <!-- ========== MODALES CONCRETO ========= -->
+  <div id="modales"></div>
 
-<!-- ===========================================================
-     MODAL 3 - PROMOS FRITAS
-=========================================================== -->
-<div class="modal fade" id="modalPromosFritas" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
-    <div class="modal-content">
-      <div class="modal-header bg-dark text-white">
-        <h5 class="modal-title">Promos Fritas</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <h6>Selecciona tu promo frita:</h6>
-        <select id="promoFrita" class="form-select mb-3">
-          <option value="10 piezas fritas">10 Piezas - $6500</option>
-          <option value="20 piezas fritas">20 Piezas - $12000</option>
-          <option value="30 piezas fritas">30 Piezas - $17500</option>
-        </select>
-        <input id="cantidadFrita" type="number" min="1" value="1" class="form-control w-25">
-        <p id="precioFrita">💰 Total actual: $6500</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" onclick="agregarPedido('Promos Fritas')">Agregar al carrito</button>
-      </div>
-    </div>
-  </div>
-</div>
+  <script>
+    const productos = [
+      { id: 'modalHandroll', nombre: 'Handroll', precio: 3500 },
+      { id: 'modalGohan', nombre: 'Gohan', precio: 4500 },
+      { id: 'modalPromoMixta', nombre: 'Promo Mixta', precio: 8900 },
+      { id: 'modalAcevichado', nombre: 'Sushi Acevichado', precio: 6900 },
+    ];
 
-<!-- ===========================================================
-     MODAL 4 - GOHAN
-=========================================================== -->
-<div class="modal fade" id="modalGohan" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
-    <div class="modal-content">
-      <div class="modal-header bg-dark text-white">
-        <h5 class="modal-title">Gohan Personalizado</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <h6>Base: arroz, palta, sésamo, cebollín</h6>
-        <p>Elige tu proteína:</p>
-        <select id="proteinaGohan" class="form-select mb-3">
-          <option value="pollo">Pollo - $5000</option>
-          <option value="salmon">Salmón - $5500</option>
-          <option value="camaron">Camarón - $5200</option>
-        </select>
-        <label>Cantidad</label>
-        <input id="cantidadGohan" type="number" min="1" value="1" class="form-control w-25">
-        <p id="precioGohan">💰 Total actual: $5000</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" onclick="agregarPedido('Gohan')">Agregar al carrito</button>
-      </div>
-    </div>
-  </div>
-</div>
+    const contenedor = document.getElementById('modales');
+    const template = document.getElementById('modalBase').content;
 
-<!-- ===========================================================
-     MODAL 5 - ACEVICHADO
-=========================================================== -->
-<div class="modal fade" id="modalAcevichado" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
-    <div class="modal-content">
-      <div class="modal-header bg-dark text-white">
-        <h5 class="modal-title">Sushi Acevichado</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <h6>Elige tu tamaño:</h6>
-        <select id="acevichado" class="form-select mb-3">
-          <option value="8 piezas">8 Piezas - $5500</option>
-          <option value="16 piezas">16 Piezas - $10000</option>
-          <option value="24 piezas">24 Piezas - $14500</option>
-        </select>
-        <input id="cantidadAcevichado" type="number" min="1" value="1" class="form-control w-25">
-        <p id="precioAcevichado">💰 Total actual: $5500</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" onclick="agregarPedido('Sushi Acevichado')">Agregar al carrito</button>
-      </div>
-    </div>
-  </div>
-</div>
+    productos.forEach(prod => {
+      const clone = template.cloneNode(true);
+      const modal = clone.querySelector('.modal');
+      modal.id = prod.id;
+      modal.querySelector('.modal-title').textContent = `Arma tu ${prod.nombre}`;
+      modal.querySelector('.precio-base').textContent = `$${prod.precio.toLocaleString()}`;
+      modal.dataset.precioBase = prod.precio;
+      contenedor.appendChild(clone);
+    });
 
-<!-- ===========================================================
-     SCRIPTS
-=========================================================== -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-let carrito = [];
-const $ = s => document.querySelector(s);
+    // Función para actualizar precios
+    document.addEventListener('input', e => {
+      const modal = e.target.closest('.modal');
+      if (!modal) return;
 
-function agregarPedido(tipo){
-  let item = {tipo, nombre:"", cantidad:1, precio:0};
+      const precioBase = parseInt(modal.dataset.precioBase);
+      const cantidad = parseInt(modal.querySelector('.cantidad').value) || 1;
+      let adicionales = 0;
+      modal.querySelectorAll('.adicional:checked').forEach(a => {
+        adicionales += parseInt(a.dataset.precio);
+      });
 
-  switch(tipo){
-    case "Handroll":
-      const tipoH = $('#tipoHandroll').value;
-      const prot = Array.from(document.querySelectorAll('#proteinasHandroll input:checked')).map(x=>x.value);
-      const ing = Array.from(document.querySelectorAll('#ingredientesHandroll input:checked')).map(x=>x.value);
-      const cantH = parseInt($('#cantidadHandroll').value);
-      const base = tipoH==="bigpappa"?2800:4000;
-      item.precio = (base + prot.length*500 + ing.length*300) * cantH;
-      item.nombre = `${tipoH} (${prot.join(", ")} + ${ing.join(", ")})`;
-      item.cantidad = cantH;
-      break;
+      const total = (precioBase + adicionales) * cantidad;
+      modal.querySelector('.precio-total').textContent = `$${total.toLocaleString()}`;
+    });
 
-    case "Promos Mixtas":
-      const promoM = $('#promoMixta').selectedOptions[0].text;
-      const cantM = parseInt($('#cantidadMixta').value);
-      const precioM = parseInt(promoM.match(/\$(\d+)/)[1]);
-      item.nombre = promoM;
-      item.precio = precioM * cantM;
-      item.cantidad = cantM;
-      break;
+    // Inicializar Bootstrap JS
+    document.querySelectorAll('.modal').forEach(modal => {
+      const basePrecio = parseInt(modal.dataset.precioBase);
+      modal.querySelector('.precio-total').textContent = `$${basePrecio.toLocaleString()}`;
+    });
+  </script>
 
-    case "Promos Fritas":
-      const promoF = $('#promoFrita').selectedOptions[0].text;
-      const cantF = parseInt($('#cantidadFrita').value);
-      const precioF = parseInt(promoF.match(/\$(\d+)/)[1]);
-      item.nombre = promoF;
-      item.precio = precioF * cantF;
-      item.cantidad = cantF;
-      break;
-
-    case "Gohan":
-      const gohan = $('#proteinaGohan').selectedOptions[0].text;
-      const cantG = parseInt($('#cantidadGohan').value);
-      const precioG = parseInt(gohan.match(/\$(\d+)/)[1]);
-      item.nombre = gohan;
-      item.precio = precioG * cantG;
-      item.cantidad = cantG;
-      break;
-
-    case "Sushi Acevichado":
-      const ace = $('#acevichado').selectedOptions[0].text;
-      const cantA = parseInt($('#cantidadAcevichado').value);
-      const precioA = parseInt(ace.match(/\$(\d+)/)[1]);
-      item.nombre = ace;
-      item.precio = precioA * cantA;
-      item.cantidad = cantA;
-      break;
-  }
-
-  carrito.push(item);
-  actualizarCarrito();
-  document.querySelectorAll('.modal.show').forEach(m => bootstrap.Modal.getInstance(m).hide());
-}
-
-function actualizarCarrito(){
-  const div = $('#carrito');
-  div.innerHTML = "";
-  let total = 0;
-  carrito.forEach((p,i)=>{
-    total += p.precio;
-    div.innerHTML += `
-      <div class="cart-item">
-        <b>${p.cantidad} x ${p.tipo}</b> ${p.nombre} - $${p.precio}
-        <button class="btn btn-sm btn-outline-dark ms-2" onclick="eliminar(${i})">❌</button>
-      </div>`;
-  });
-  if($('input[name="entrega"]:checked').value==='reparto' && carrito.length>0) total+=1000;
-  $('#total').textContent = "Total: $" + total;
-  $('#cartCount').textContent = carrito.length;
-}
-
-function eliminar(i){ carrito.splice(i,1); actualizarCarrito(); }
-
-$('input[name="entrega"]').forEach(r=>r.addEventListener('change',()=>{
-  $('#direccion').style.display=r.value==='reparto'?'block':'none';
-  actualizarCarrito();
-}));
-
-$('#cartBtn').addEventListener('click', ()=>{
-  const panel=$('#cartPanel');
-  panel.style.display = (panel.style.display==='none'||panel.style.display==='') ? 'block':'none';
-});
-
-function pagar(){ alert("Función de pago próximamente 😄"); }
-</script>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
