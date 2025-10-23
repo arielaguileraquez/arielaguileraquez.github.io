@@ -1,133 +1,399 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pedidos Sushi</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    .modal-header {
-      background-color: #f8f9fa;
-    }
-    .precio-total {
-      font-size: 1.4rem;
-      font-weight: bold;
-      color: #198754;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Aki Sushi | Pedidos</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body { 
+  font-family: Arial, sans-serif; 
+  background: #f9f9f9; 
+  color: #111; 
+  padding: 20px; 
+}
+h1,h2 { color: #111; }
+
+.btn-primary { 
+  background:#111; 
+  color:#fff; 
+  border:none; 
+}
+.btn-primary:hover { background:#333; }
+
+.cart-panel {
+  width: 320px;
+  max-height: 90vh;
+  overflow-y:auto;
+  position: fixed;
+  top: 56px;
+  right: 10px;
+  background: #fff;
+  border:1px solid #ccc;
+  border-radius:10px;
+  padding:15px;
+  z-index:1055;
+  display:none;
+  box-shadow:0 2px 10px rgba(0,0,0,0.15);
+}
+
+.cart-item { 
+  border-bottom:1px solid #eee; 
+  padding:6px 0; 
+}
+
+#total { font-weight:bold; font-size:1.2rem; color:#111; }
+#precioModal { font-weight:bold; font-size:1.2rem; margin-top:10px; color:#111; }
+
+.pedido-rapido button { margin:5px; font-size:1rem; }
+
+#cantidad { width:60px; }
+
+@media (max-width: 576px) {
+  #pedidoModal .modal-dialog,
+  .pedido-modal .modal-dialog {
+    max-width: 100%; margin: 0; height: 100%;
+  }
+  #pedidoModal .modal-content,
+  .pedido-modal .modal-content {
+    height: 100%; border-radius: 0; font-size: 1.2rem; display: flex; flex-direction: column;
+  }
+  #pedidoModal .modal-body,
+  .pedido-modal .modal-body { flex: 1; overflow-y: auto; }
+  #pedidoModal label,
+  .pedido-modal label { font-size:1.2rem; margin-bottom:0.5rem; }
+  #pedidoModal input[type="checkbox"],
+  .pedido-modal input[type="checkbox"] { transform: scale(1.7); margin-right: 10px; }
+  #pedidoModal input[type="number"],
+  #pedidoModal select,
+  #pedidoModal button,
+  .pedido-modal input[type="number"],
+  .pedido-modal select,
+  .pedido-modal button { font-size:1.2rem; padding:0.75rem 1rem; }
+  .pedido-rapido button { font-size:1.2rem; padding:0.5rem 1rem; margin-bottom:0.5rem; }
+  .btn-lg { font-size:1.5rem; padding:15px 25px; }
+  .cart-panel { width:90%; right:5%; top:70px; max-height:80vh; padding:1rem; }
+}
+</style>
 </head>
-<body class="bg-light">
+<body>
 
-  <div class="container py-5">
-    <h2 class="text-center mb-4">Haz tu pedido 🍣</h2>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-white shadow-sm mb-3">
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+    <img src="logo.jpg" alt="Logo" style="height:60px;">
+    <span class="navbar-brand fw-bold text-dark">Aki Foods</span>
+    <button id="cartBtn" class="btn btn-outline-dark position-relative">
+      🛒
+      <span id="cartCount" class="badge bg-dark position-absolute top-0 start-100 translate-middle rounded-pill">0</span>
+    </button>
+  </div>
+</nav>
 
-    <div class="row g-3 justify-content-center">
-      <div class="col-md-3">
-        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#modalHandroll">Handroll</button>
+<!-- Carrito -->
+<div id="cartPanel" class="cart-panel shadow-sm">
+  <h5 class="text-center">🛒 Tu pedido</h5>
+  <div id="carrito"></div>
+  <p id="total">Total: $0</p>
+  <div class="mt-2">
+    <label><input type="radio" name="entrega" value="retiro" checked> Retiro en local</label><br>
+    <label><input type="radio" name="entrega" value="reparto"> Reparto (+$1000)</label>
+    <input id="direccion" class="form-control mt-2" placeholder="Dirección (si reparto)" style="display:none;">
+  </div>
+  <button class="btn btn-primary w-100 mt-3" onclick="pagar()">Pagar</button>
+</div>
+
+<!-- Botones de productos -->
+<div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+  <button class="btn btn-primary btn-lg d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#handrollModal" style="gap:10px;">
+    <img src="handrolls.jpg" alt="Handroll" style="height:60px;"> Handroll
+  </button>
+  <button class="btn btn-primary btn-lg d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#mixtasModal" style="gap:10px;">
+    <img src="mixtas.jpg" alt="Promos" style="height:60px;"> Promos Mixtas
+  </button>
+  <button class="btn btn-primary btn-lg d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#fritasModal" style="gap:10px;">
+    <img src="fritas.jpg" alt="Fritas" style="height:60px;"> Promos Fritas
+  </button>
+  <button class="btn btn-primary btn-lg d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#gohanModal" style="gap:10px;">
+    <img src="gohan.jpg" alt="Gohan" style="height:60px;"> Gohan
+  </button>
+  <button class="btn btn-primary btn-lg d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#acevichadoModal" style="gap:10px;">
+    <img src="acevichado.jpg" alt="Acevichado" style="height:60px;"> Sushi Acevichado
+  </button>
+</div>
+
+<!-- 🔸 MODAL HANDROLL (tu lógica original) -->
+<div class="modal fade pedido-modal" id="handrollModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title">Arma tu Handroll</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
-      <div class="col-md-3">
-        <button class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#modalGohan">Gohan</button>
+      <div class="modal-body">
+        <div class="pedido-rapido mb-3">
+          <h6 class="fw-bold">Pedidos rápidos 🍣</h6>
+          <button class="btn btn-outline-dark" onclick="pedidoRapido('bigpappa',['pollo'],['palta','queso'])">BigPappa Pollo + Palta + Queso</button>
+          <button class="btn btn-outline-dark" onclick="pedidoRapido('bigpappa',['camaron'],['palta','queso_crema'])">BigPappa Camarón + Palta + Queso Crema</button>
+          <button class="btn btn-outline-dark" onclick="pedidoRapido('goliat',['salmon'],['palta','queso_crema','cebollin'])">Goliat Salmón + Palta + Queso Crema + Cebollín</button>
+        </div>
+
+        <label class="fw-bold">Tipo</label>
+        <select id="tipo" class="form-select mb-3">
+          <option value="bigpappa">Big Pappa (3 ingredientes)</option>
+          <option value="goliat">Goliat XL (4 ingredientes)</option>
+        </select>
+
+        <div>
+          <h6>Proteínas (la primera incluida, extra $800):</h6>
+          <div id="proteinas" class="d-flex flex-column">
+            <label><input type="checkbox" value="kanikama"> Kanikama</label>
+            <label><input type="checkbox" value="pollo"> Pollo</label>
+            <label><input type="checkbox" value="camaron"> Camarón</label>
+            <label><input type="checkbox" value="salmon"> Salmón</label>
+            <label><input type="checkbox" value="champinon"> Champiñón</label>
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <h6>Ingredientes (extras: vegetales $500, queso crema $600)</h6>
+          <div id="ingredientes" class="d-flex flex-column">
+            <label><input type="checkbox" value="queso"> Queso</label>
+            <label><input type="checkbox" value="palta"> Palta</label>
+            <label><input type="checkbox" value="cebollin"> Cebollín</label>
+            <label><input type="checkbox" value="morron"> Morrón</label>
+            <label><input type="checkbox" value="queso_crema"> Queso Crema</label>
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <label>Cantidad</label>
+          <input id="cantidad" type="number" min="1" value="1" class="form-control w-25">
+        </div>
+
+        <p id="precioModal">💰 Total actual: $0</p>
+
       </div>
-      <div class="col-md-3">
-        <button class="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#modalPromoMixta">Promo Mixta</button>
-      </div>
-      <div class="col-md-3">
-        <button class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#modalAcevichado">Acevichado</button>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="agregarAlCarrito()">Agregar al carrito</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- ========== MODAL BASE ========= -->
-  <template id="modalBase">
-    <div class="modal fade" tabindex="-1">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title"></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <label class="form-label">Cantidad:</label>
-                <input type="number" min="1" value="1" class="form-control cantidad">
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label">Adicionales:</label><br>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input adicional" type="checkbox" data-precio="1000" id="extraPalta">
-                  <label class="form-check-label" for="extraPalta">Palta +$1000</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input adicional" type="checkbox" data-precio="500" id="extraQueso">
-                  <label class="form-check-label" for="extraQueso">Queso crema +$500</label>
-                </div>
-              </div>
-
-              <div class="mt-4 d-flex justify-content-between align-items-center">
-                <div>Precio Base: <strong class="precio-base"></strong></div>
-                <div>Total: <span class="precio-total">$0</span></div>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn btn-primary">Agregar al pedido</button>
-          </div>
-        </div>
+<!-- 🔸 MODALES ADICIONALES (usan agregarItemDirecto o pueden extenderse) -->
+<div class="modal fade pedido-modal" id="mixtasModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white"><h5 class="modal-title">Promos Mixtas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body text-center">
+        <p>Selecciona tu promo Mixta.</p>
+        <button class="btn btn-outline-dark m-2" onclick="agregarItemDirecto('Promo Mixta 10 piezas', 6000)">10 piezas - $6.000</button>
+        <button class="btn btn-outline-dark m-2" onclick="agregarItemDirecto('Promo Mixta 20 piezas', 11000)">20 piezas - $11.000</button>
+        <button class="btn btn-outline-dark m-2" onclick="agregarItemDirecto('Promo Mixta 30 piezas', 16000)">30 piezas - $16.000</button>
       </div>
     </div>
-  </template>
+  </div>
+</div>
 
-  <!-- ========== MODALES CONCRETO ========= -->
-  <div id="modales"></div>
+<div class="modal fade pedido-modal" id="fritasModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white"><h5 class="modal-title">Promos Fritas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body text-center">
+        <p>Selecciona tu promo Frita.</p>
+        <button class="btn btn-outline-dark m-2" onclick="agregarItemDirecto('Promo Frita 15 piezas', 6500)">15 piezas - $6.500</button>
+        <button class="btn btn-outline-dark m-2" onclick="agregarItemDirecto('Promo Frita 25 piezas', 12000)">25 piezas - $12.000</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <script>
-    const productos = [
-      { id: 'modalHandroll', nombre: 'Handroll', precio: 3500 },
-      { id: 'modalGohan', nombre: 'Gohan', precio: 4500 },
-      { id: 'modalPromoMixta', nombre: 'Promo Mixta', precio: 8900 },
-      { id: 'modalAcevichado', nombre: 'Sushi Acevichado', precio: 6900 },
-    ];
+<div class="modal fade pedido-modal" id="gohanModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white"><h5 class="modal-title">Gohan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body text-center">
+        <p>Elige tu Gohan:</p>
+        <button class="btn btn-outline-dark m-2" onclick="agregarItemDirecto('Gohan Pollo', 5500)">Pollo - $5.500</button>
+        <button class="btn btn-outline-dark m-2" onclick="agregarItemDirecto('Gohan Camarón', 6000)">Camarón - $6.000</button>
+        <button class="btn btn-outline-dark m-2" onclick="agregarItemDirecto('Gohan Salmón', 6500)">Salmón - $6.500</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-    const contenedor = document.getElementById('modales');
-    const template = document.getElementById('modalBase').content;
+<div class="modal fade pedido-modal" id="acevichadoModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white"><h5 class="modal-title">Sushi Acevichado</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body text-center">
+        <p>Elige tu Acevichado:</p>
+        <button class="btn btn-outline-dark m-2" onclick="agregarItemDirecto('Acevichado Tradicional', 6500)">Tradicional - $6.500</button>
+        <button class="btn btn-outline-dark m-2" onclick="agregarItemDirecto('Acevichado Salmón', 7000)">Salmón - $7.000</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-    productos.forEach(prod => {
-      const clone = template.cloneNode(true);
-      const modal = clone.querySelector('.modal');
-      modal.id = prod.id;
-      modal.querySelector('.modal-title').textContent = `Arma tu ${prod.nombre}`;
-      modal.querySelector('.precio-base').textContent = `$${prod.precio.toLocaleString()}`;
-      modal.dataset.precioBase = prod.precio;
-      contenedor.appendChild(clone);
-    });
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// -------------------- LÓGICA ORIGINAL --------------------
+const preciosBase = {
+  bigpappa: { kanikama: 2500, champinon: 2800, pollo: 2800, camaron: 3000, salmon: 3500 },
+  goliat: { kanikama: 3800, champinon: 4000, pollo: 4000, camaron: 4300, salmon: 4500 }
+};
+let carrito = [];
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
 
-    // Función para actualizar precios
-    document.addEventListener('input', e => {
-      const modal = e.target.closest('.modal');
-      if (!modal) return;
+function formatPrice(n){
+  if (isNaN(n)) return "0";
+  return n.toLocaleString();
+}
 
-      const precioBase = parseInt(modal.dataset.precioBase);
-      const cantidad = parseInt(modal.querySelector('.cantidad').value) || 1;
-      let adicionales = 0;
-      modal.querySelectorAll('.adicional:checked').forEach(a => {
-        adicionales += parseInt(a.dataset.precio);
-      });
+function calcularPrecioModal(){
+  const tipo = $('#tipo').value;
+  const proteinas = Array.from($$('#proteinas input:checked')).map(e=>e.value);
+  const ingredientes = Array.from($$('#ingredientes input:checked')).map(e=>e.value);
+  const cant = parseInt($('#cantidad').value) || 1;
+  if(proteinas.length===0) return 0;
+  // precio de la primera proteína según tipo
+  let precio = preciosBase[tipo][proteinas[0]];
+  // adicionales por proteínas extra
+  if(proteinas.length>1) precio += (proteinas.length-1)*800;
+  // incluidos según tipo
+  const incluidos = tipo==='bigpappa'?2:3;
+  ingredientes.forEach((ing,i)=>{
+    if(i>=incluidos){
+      precio += ing==='queso_crema'?600:500;
+    }
+  });
+  return precio * cant;
+}
 
-      const total = (precioBase + adicionales) * cantidad;
-      modal.querySelector('.precio-total').textContent = `$${total.toLocaleString()}`;
-    });
+function actualizarPrecioModal(){
+  $('#precioModal').textContent = `💰 Total actual: $${formatPrice(calcularPrecioModal())}`;
+}
 
-    // Inicializar Bootstrap JS
-    document.querySelectorAll('.modal').forEach(modal => {
-      const basePrecio = parseInt(modal.dataset.precioBase);
-      modal.querySelector('.precio-total').textContent = `$${basePrecio.toLocaleString()}`;
-    });
-  </script>
+// vincular inputs del modal Handroll para actualizar en tiempo real
+$('#tipo').addEventListener('change', actualizarPrecioModal);
+$('#cantidad').addEventListener('input', actualizarPrecioModal);
+$$('#proteinas input,#ingredientes input').forEach(i=>i.addEventListener('change', actualizarPrecioModal));
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+// pedidos rápidos mantienen selección
+function pedidoRapido(tipo, proteinas, ingredientes){
+  $$('#proteinas input, #ingredientes input').forEach(e=>e.checked=false);
+  $('#tipo').value = tipo;
+  proteinas.forEach(p=>{ const el = $(`#proteinas input[value="${p}"]`); if(el) el.checked=true; });
+  ingredientes.forEach(i=>{ const el = $(`#ingredientes input[value="${i}"]`); if(el) el.checked=true; });
+  $('#cantidad').value = 1;
+  actualizarPrecioModal();
+}
+
+function agregarAlCarrito(){
+  const tipo = $('#tipo').value;
+  const proteinas = Array.from($$('#proteinas input:checked')).map(e=>e.value);
+  const ingredientes = Array.from($$('#ingredientes input:checked')).map(e=>e.value);
+  const cant = parseInt($('#cantidad').value) || 1;
+  if(proteinas.length===0){ alert("Debes elegir al menos una proteína."); return; }
+  // precio por unidad (precio total dividido por cantidad)
+  let precio = calcularPrecioModal() / cant;
+  // normalizamos nombre para mostrar en el carrito
+  const nombreTipo = tipo==='bigpappa' ? 'Big Pappa' : 'Goliat';
+  const nombreProteinas = proteinas.join(', ');
+  carrito.push({ tipo: nombreTipo, proteinas, ingredientes, cant, precio });
+  mostrarCarrito();
+  $('#cartCount').textContent = carrito.length;
+  // cerrar modal Handroll
+  const modalEl = document.getElementById('handrollModal');
+  const bs = bootstrap.Modal.getInstance(modalEl);
+  if(bs) bs.hide();
+}
+
+function agregarItemDirecto(nombre, precio){
+  // agrega con cantidad 1 y precio enviado
+  carrito.push({ tipo: nombre, proteinas: [], ingredientes: [], cant: 1, precio });
+  mostrarCarrito();
+  $('#cartCount').textContent = carrito.length;
+  // cerrar cualquier modal abierto
+  document.querySelectorAll('.modal.show').forEach(m=>{
+    const inst = bootstrap.Modal.getInstance(m);
+    if(inst) inst.hide();
+  });
+}
+
+function mostrarCarrito(){
+  const c = $('#carrito'); c.innerHTML = ''; let total = 0;
+  carrito.forEach((i,idx)=>{
+    const itemTotal = i.precio * i.cant; total += itemTotal;
+    const proteinasTxt = i.proteinas.join(', ');
+    const ingTxt = i.ingredientes.length>0 ? i.ingredientes.join(', ') : '';
+    c.innerHTML += `
+      <div class="cart-item">
+        <div>
+          <b>${i.cant} x ${i.tipo.toUpperCase()}</b> ${proteinasTxt?`(${proteinasTxt})`:''} - $${formatPrice(itemTotal)}
+          <button class="btn btn-sm btn-outline-dark ms-2" onclick="eliminar(${idx})">❌</button>
+        </div>
+        ${ingTxt?`<div style="font-size:0.85rem; color:#666;">+ ${ingTxt}</div>`:''}
+      </div>
+    `;
+  });
+
+  const entrega = document.querySelector('input[name="entrega"]:checked').value;
+  if(entrega === 'reparto' && carrito.length > 0) total += 1000;
+  $('#total').innerText = "Total: $" + formatPrice(total);
+  $('#cartCount').textContent = carrito.length;
+}
+
+function eliminar(i){
+  carrito.splice(i,1);
+  mostrarCarrito();
+  $('#cartCount').textContent = carrito.length;
+}
+
+// escucha cambio método entrega (muestra input direccion y recalcula)
+document.querySelectorAll('input[name="entrega"]').forEach(r=>{
+  r.addEventListener('change', ()=>{
+    $('#direccion').style.display = r.value === 'reparto' ? 'block' : 'none';
+    mostrarCarrito();
+  });
+});
+
+// toggle panel carrito
+$('#cartBtn').addEventListener('click', ()=>{
+  const panel = $('#cartPanel');
+  panel.style.display = (panel.style.display === 'none' || panel.style.display === '') ? 'block' : 'none';
+});
+
+// pagar (placeholder)
+function pagar(){
+  if(carrito.length === 0){
+    alert('Tu carrito está vacío 😅');
+    return;
+  }
+  // aquí podrías enviar al backend con fetch / form submit
+  let resumen = 'Resumen del pedido:\n';
+  let total = 0;
+  carrito.forEach(it=>{
+    resumen += `${it.cant} x ${it.tipo} - $${formatPrice(it.precio * it.cant)}\n`;
+    total += it.precio * it.cant;
+  });
+  const entrega = document.querySelector('input[name="entrega"]:checked').value;
+  if(entrega === 'reparto') { total += 1000; resumen += '\nReparto: $1.000\n'; }
+  resumen += `\nTotal: $${formatPrice(total)}\n\n(Esto es una demo; integra tu pasarela o backend)`;
+  alert(resumen);
+}
+
+// inicializaciones
+actualizarPrecioModal();
+mostrarCarrito();
+
+</script>
 </body>
 </html>
 
