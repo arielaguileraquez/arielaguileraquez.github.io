@@ -30,9 +30,9 @@
 
 <body class="contact-page">
 
+  <!-- Header -->
   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
-
       <a href="index.html" class="logo d-flex align-items-center">
         <img src="assets/img/iconlog.png" alt="Logo Gesai" style="height: 100px; width: auto;">
       </a>
@@ -41,7 +41,6 @@
         <ul>
           <li><a href="index.html">Inicio</a></li>
           <li><a href="servicios.html">Servicios</a></li>
-
           <li class="dropdown">
             <a href="#"><span>Acceso</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
@@ -53,16 +52,15 @@
               <li><a href="https://geomatica.gesai.cl/inicio">Topografía</a></li>
             </ul>
           </li>
-
           <li><a href="https://geomatica.gesai.cl">Geomática</a></li>
           <li><a href="contact.html" class="active">Contacto</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
-
     </div>
   </header>
 
+  <!-- Main -->
   <main class="main">
 
     <!-- Page Title -->
@@ -77,14 +75,11 @@
           </ol>
         </nav>
       </div>
-    </div><!-- End Page Title -->
+    </div>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact section">
-
+    <!-- Contact Info Boxes -->
+    <section class="contact section">
       <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <!-- Contact Info Boxes -->
         <div class="row gy-4 mb-5">
           <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
             <div class="contact-info-box">
@@ -119,77 +114,34 @@
         </div>
       </div>
 
-      <!-- Contact Form Section -->
-      <div class="container">
-        <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="200">
-          <div class="col-lg-10">
-            <div class="contact-form-wrapper">
-              <h2 class="text-center mb-4">Escríbenos</h2>
+      <!-- WhatsApp Button -->
+      <div class="container text-center" data-aos="fade-up" data-aos-delay="200">
+        <h2 class="mb-4">¿Tienes alguna consulta?</h2>
+        <p>¡Envíanos un mensaje por WhatsApp y te responderemos a la brevedad!</p>
 
-              <form action="https://formsubmit.co/e.aguilerq@gmail.com" method="POST" class="php-email-form">
-                <div class="row g-3">
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-with-icon">
-                        <i class="bi bi-person"></i>
-                        <input type="text" class="form-control" name="name" placeholder="Nombre" required>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-with-icon">
-                        <i class="bi bi-envelope"></i>
-                        <input type="email" class="form-control" name="email" placeholder="Correo electrónico" required>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <div class="input-with-icon">
-                        <i class="bi bi-text-left"></i>
-                        <input type="text" class="form-control" name="subject" placeholder="Asunto" required>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-12">
-                    <div class="form-group">
-                      <div class="input-with-icon">
-                        <i class="bi bi-chat-dots message-icon"></i>
-                        <textarea class="form-control" name="message" placeholder="Escribe tu mensaje..." style="height: 180px" required></textarea>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Configuración oculta de FormSubmit -->
-                  <input type="hidden" name="_captcha" value="false">
-                  <input type="hidden" name="_next" value="https://gesai.cl/index.html">
-                  <input type="hidden" name="_subject" value="Nuevo mensaje desde el formulario web">
-
-                  <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-primary btn-submit">Enviar Mensaje</button>
-                  </div>
-
-                </div>
-              </form>
-
-            </div>
-          </div>
-        </div>
+        <a href="https://wa.me/569XXXXXXXX?text=Hola%20Gesai,%20quiero%20más%20información"
+           target="_blank"
+           class="btn btn-success btn-lg mt-3"
+           style="padding: 15px 30px; font-size: 1.2rem; border-radius: 50px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+           <i class="bi bi-whatsapp me-2"></i> Comunicar por WhatsApp
+        </a>
       </div>
-
-    </section><!-- /Contact Section -->
+    </section>
 
   </main>
 
-  <footer id="footer" class="footer dark-background text-center">
-    <div class="container mt-4">
-      <p>© <strong>GESAI</strong> - Derechos Reservados</p>
+  <!-- Footer -->
+   <footer id="footer" class="footer position-relative dark-background">
+
+  
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">GESAI</strong> <span>Derechos Reservados</span></p>
+      <!-- <div class="credits">
+        
+        Diseñado Por <a href="https://github.com/arielaguileraquez">AQ</a>
+      </div> -->
     </div>
+
   </footer>
 
   <!-- Scroll Top -->
@@ -213,5 +165,4 @@
   <script src="assets/js/main.js"></script>
 
 </body>
-
 </html>
