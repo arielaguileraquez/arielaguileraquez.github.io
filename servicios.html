@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Topografia | GESAI</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <title>Servicios | GESAI</title>
+  <meta name="description" content="Servicios profesionales de Topografía, GIS, Construcción y Consultoría. Cubicaciones, presupuestos, regularizaciones y análisis de precios unitarios.">
+  <meta name="keywords" content="Topografía, GIS, Construcción, Cubicaciones, Presupuestos, Consultoría, Regularizaciones, Bio Bio">
 
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
@@ -15,7 +15,7 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -28,7 +28,6 @@
   <link href="assets/css/main.css" rel="stylesheet">
 
   <style>
-    /* Pequeños ajustes específicos para las tarjetas (no tocan el resto) */
     .program-item {
       transition: transform .32s ease, box-shadow .32s ease;
       will-change: transform;
@@ -53,7 +52,7 @@
   </style>
 </head>
 
-<body class="events-page">
+<body class="services-page">
 
   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
@@ -64,23 +63,19 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="index.html" >Inicio</a></li>
+          <li><a href="index.html">Inicio</a></li>
           <li><a href="servicios.html" class="active">Servicios</a></li>
-
           <li class="dropdown">
             <a href="#"><span>Acceso </span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-              <li><a href="https://geomatica.gesai.cl/huertos" id="serverLink">Adm. Huertos</a></li>
+              <li><a href="https://geomatica.gesai.cl/huertos">Adm. Huertos</a></li>
               <li><a href="https://geomatica.gesai.cl/inicio">Patr. Forestal</a></li>
               <li><a href="https://geomatica.gesai.cl/inicio">Gestión y Venta Terrenos</a></li>
               <li><a href="https://geomatica.gesai.cl/inicio">Gestion Regantes</a></li>
               <li><a href="https://geomatica.gesai.cl/inicio">QSEH</a></li>
               <li><a href="https://geomatica.gesai.cl/inicio">Topografía</a></li>
-
-
             </ul>
           </li>
-
           <li><a href="https://geomatica.gesai.cl">Geomática</a></li>
           <li><a href="contact.html">Contacto</a></li>
         </ul>
@@ -96,7 +91,7 @@
     <div class="page-title dark-background" style="background-image: url(assets/img/education/modificacion.png);">
       <div class="container position-relative">
         <h1>Servicios</h1>
-        <p>Listado de Servicios</p>
+        <p>Todos nuestros servicios profesionales</p>
         <nav class="breadcrumbs">
           <ol>
             <li><a href="index.html">Inicio</a></li>
@@ -104,46 +99,35 @@
           </ol>
         </nav>
       </div>
-    </div><!-- End Page Title -->
+    </div>
 
-    <!-- Events 2 Section -->
-    <section id="events-2" class="events-2 section">
-
+    <section id="services" class="section">
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-        <!-- <<--- Aquí se eliminó la navegación por tabs y se muestra un encabezado simple ---> 
         <div class="row mb-4">
           <div class="col-12 text-center" data-aos="fade-up">
             <h2 class="section-title">Nuestros Servicios</h2>
-            <p class="section-subtitle">Servicios profesionales en Topografía, GIS, Aplicaciones Web, Batimetría y Fotogrametría.</p>
+            <p class="section-subtitle">Soluciones integrales en Topografía, GIS, Construcción, Presupuestos y Consultoría.</p>
           </div>
         </div>
 
-        <!-- GRID DE TARJETAS (servicios) -->
-        <div class="row g-4" id="services-grid" data-aos="fade-up" data-aos-delay="200">
+        <div class="row g-4" data-aos="fade-up" data-aos-delay="200">
 
-          <!-- Topografía (tarjeta ampliada con muchos servicios) -->
-          <div class="col-lg-6 col-md-6" data-aos="zoom-in" data-aos-delay="100">
-            <div class="program-item topografia">
+          <!-- Topografía -->
+          <div class="col-lg-6 col-md-6">
+            <div class="program-item">
               <div class="program-header">
-                <div class="program-icon">
-                  <i class="bi bi-geo-alt"></i>
-                </div>
+                <div class="program-icon"><i class="bi bi-geo-alt"></i></div>
                 <span class="program-type">Topografía</span>
               </div>
               <div class="program-body">
-                <h3>Servicios Topográficos completos</h3>
-                <p>Levantamientos precisos y control geométrico para obra civil, parcelaciones y proyectos de ingeniería.</p>
+                <h3>Levantamientos y Control Geométrico</h3>
                 <ul class="program-details">
-                  <li><i class="bi bi-check-circle"></i> Levantamientos catastrales y de parcelas</li>
-                  <li><i class="bi bi-check-circle"></i> Levantamientos topográficos para obra civil</li>
-                  <li><i class="bi bi-check-circle"></i> Replanteos y control de obra (staking-out)</li>
-                  <li><i class="bi bi-check-circle"></i> Nivelaciones y perfiles longitudinales</li>
-                  <li><i class="bi bi-check-circle"></i> Estaciones totales y GNSS (RTK/PPP)</li>
-                  <li><i class="bi bi-check-circle"></i> Control geodésico y red de control</li>
-                  <li><i class="bi bi-check-circle"></i> Parcelación y subdivisiones legales</li>
-                  <li><i class="bi bi-check-circle"></i> Cálculo de volúmenes (terraplenes, excavaciones)</li>
-                  <li><i class="bi bi-check-circle"></i> Planos topográficos en DWG/PDF y georreferenciados</li>
+                  <li>Levantamientos catastrales y prediales</li>
+                  <li>Replanteos y control de obra</li>
+                  <li>Red de control geodésico</li>
+                  <li>Cálculo de volúmenes y perfiles</li>
+                  <li>Planos georreferenciados DWG/PDF</li>
                 </ul>
               </div>
               <div class="program-footer">
@@ -153,25 +137,19 @@
           </div>
 
           <!-- GIS / SIG -->
-          <div class="col-lg-6 col-md-6" data-aos="zoom-in" data-aos-delay="150">
-            <div class="program-item gis">
+          <div class="col-lg-6 col-md-6">
+            <div class="program-item">
               <div class="program-header">
-                <div class="program-icon">
-                  <i class="bi bi-globe2"></i>
-                </div>
+                <div class="program-icon"><i class="bi bi-globe2"></i></div>
                 <span class="program-type">GIS / SIG</span>
               </div>
               <div class="program-body">
-                <h3>Soluciones GIS & SIG</h3>
-                <p>Desde la estructura de datos hasta análisis espacial y publicación de mapas en línea.</p>
+                <h3>Análisis y Cartografía Geoespacial</h3>
                 <ul class="program-details">
-                  <li><i class="bi bi-check-circle"></i> Diseño de geodatabase y modelado territorial</li>
-                  <li><i class="bi bi-check-circle"></i> Cartografía temática y topográfica</li>
-                  <li><i class="bi bi-check-circle"></i> Análisis espacial y geoprocesos (buffers, intersect, zonificación)</li>
-                  <li><i class="bi bi-check-circle"></i> Integración de datos LiDAR, rásters y vectores</li>
-                  <li><i class="bi bi-check-circle"></i> Orthomosaicos y procesamiento de imágenes satelitales</li>
-                  <li><i class="bi bi-check-circle"></i> Servicios WMS / WFS, Tile servers y publicación web</li>
-                  <li><i class="bi bi-check-circle"></i> Auditoría y calidad de datos geoespaciales</li>
+                  <li>Geodatabase y modelado territorial</li>
+                  <li>Cartografía temática y topográfica</li>
+                  <li>Orthomosaicos, LiDAR y procesamiento de imágenes</li>
+                  <li>Servicios web WMS/WFS y dashboards</li>
                 </ul>
               </div>
               <div class="program-footer">
@@ -180,24 +158,21 @@
             </div>
           </div>
 
-          <!-- Aplicaciones Web -->
-          <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
-            <div class="program-item web">
+          <!-- Construcción -->
+          <div class="col-lg-6 col-md-6">
+            <div class="program-item">
               <div class="program-header">
-                <div class="program-icon">
-                  <i class="bi bi-code-slash"></i>
-                </div>
-                <span class="program-type">Aplicaciones Web</span>
+                <div class="program-icon"><i class="bi bi-building"></i></div>
+                <span class="program-type">Construcción</span>
               </div>
               <div class="program-body">
-                <h3>Desarrollo Web & WebGIS</h3>
-                <p>Aplicaciones a medida para gestionar y visualizar información geoespacial en tiempo real.</p>
+                <h3>Proyectos y Cubicaciones</h3>
                 <ul class="program-details">
-                  <li><i class="bi bi-check-circle"></i> Mapas interactivos (Leaflet / OpenLayers / Mapbox)</li>
-                  <li><i class="bi bi-check-circle"></i> Dashboards y reportes geoespaciales</li>
-                  <li><i class="bi bi-check-circle"></i> APIs geoespaciales (GeoJSON, REST, WFS)</li>
-                  <li><i class="bi bi-check-circle"></i> Integración con bases de datos espaciales (PostGIS)</li>
-                  <li><i class="bi bi-check-circle"></i> Aplicaciones móviles híbridas y PWA para trabajo de campo</li>
+                  <li>Cubicaciones y estimación de volúmenes</li>
+                  <li>Presupuestos y análisis de precios unitarios</li>
+                  <li>Supervisión y control de obra</li>
+                  <li>Planificación y programación de proyectos</li>
+                  <li>Regularizaciones y cumplimiento normativo</li>
                 </ul>
               </div>
               <div class="program-footer">
@@ -206,73 +181,20 @@
             </div>
           </div>
 
-          <!-- Batimetrías & Fotogrametrías -->
-          <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="250">
-            <div class="program-item batimetria">
+          <!-- Consultoría y Soporte -->
+          <div class="col-lg-6 col-md-6">
+            <div class="program-item">
               <div class="program-header">
-                <div class="program-icon">
-                  <i class="bi bi-water"></i>
-                </div>
-                <span class="program-type">Batimetría & Fotogrametría</span>
+                <div class="program-icon"><i class="bi bi-gear"></i></div>
+                <span class="program-type">Consultoría</span>
               </div>
               <div class="program-body">
-                <h3>Estudios aéreos y acuáticos</h3>
-                <p>Procesamiento avanzado con drones, multihaz y sensores para modelos precisos.</p>
+                <h3>Asesoría Especializada</h3>
                 <ul class="program-details">
-                  <li><i class="bi bi-check-circle"></i> Batimetrías multihaz y sonar</li>
-                  <li><i class="bi bi-check-circle"></i> Fotogrametría aérea con drones (orthomosaicos, DSM/DTM)</li>
-                  <li><i class="bi bi-check-circle"></i> LiDAR / nube de puntos y extracción de rasgos</li>
-                  <li><i class="bi bi-check-circle"></i> Modelos 3D, curvas de nivel y análisis de volúmenes</li>
-                  <li><i class="bi bi-check-circle"></i> Inspecciones y mapeo costero / hidrológico</li>
-                </ul>
-              </div>
-              <div class="program-footer">
-                <a href="#" class="program-link">Ver Servicio <i class="bi bi-arrow-right"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Gestión y Venta de Parcelas -->
-          <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="300">
-            <div class="program-item parcelas">
-              <div class="program-header">
-                <div class="program-icon">
-                  <i class="bi bi-house-check"></i>
-                </div>
-                <span class="program-type">Parcelas</span>
-              </div>
-              <div class="program-body">
-                <h3>Gestión y Venta de Parcelas</h3>
-                <p>Servicios de gestión, regularización y venta con soporte cartográfico y legal.</p>
-                <ul class="program-details">
-                  <li><i class="bi bi-check-circle"></i> Estudios prediales y regularización</li>
-                  <li><i class="bi bi-check-circle"></i> Planos y documentación para venta</li>
-                  <li><i class="bi bi-check-circle"></i> Gestión SIG para comercialización y análisis</li>
-                  <li><i class="bi bi-check-circle"></i> Integración con portales y API para publicación</li>
-                </ul>
-              </div>
-              <div class="program-footer">
-                <a href="#" class="program-link">Ver Servicio <i class="bi bi-arrow-right"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Servicios Especiales / Consultoría -->
-          <div class="col-lg-6 col-md-12" data-aos="zoom-in" data-aos-delay="350">
-            <div class="program-item consultoria">
-              <div class="program-header">
-                <div class="program-icon">
-                  <i class="bi bi-gear"></i>
-                </div>
-                <span class="program-type">Consultoría Especializada</span>
-              </div>
-              <div class="program-body">
-                <h3>Soporte técnico y consultoría</h3>
-                <p>Asesorías, validación de metodologías y control de calidad para proyectos geoespaciales.</p>
-                <ul class="program-details">
-                  <li><i class="bi bi-check-circle"></i> Auditoría de datos y QA/QC geoespacial</li>
-                  <li><i class="bi bi-check-circle"></i> Capacitación y transferencia tecnológica</li>
-                  <li><i class="bi bi-check-circle"></i> Planeamiento y estimación técnica de proyectos</li>
+                  <li>Auditoría de proyectos y control de calidad</li>
+                  <li>Capacitación y transferencia tecnológica</li>
+                  <li>Planificación y estimación técnica de proyectos</li>
+                  <li>Optimización de procesos y flujos constructivos</li>
                 </ul>
               </div>
               <div class="program-footer">
@@ -282,18 +204,15 @@
           </div>
 
         </div>
-        <!-- /GRID DE TARJETAS -->
 
       </div>
-
-    </section><!-- /Events 2 Section -->
+    </section>
 
   </main>
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Preloader -->
   <div id="preloader"></div>
 
   <!-- Vendor JS Files -->
@@ -308,14 +227,7 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
-
-  <script>
-    // Inicializar AOS si no está inicializado en main.js
-    if (typeof AOS !== 'undefined') {
-      AOS.init({ once: true, duration: 700 });
-    }
-  </script>
+  <script>if(typeof AOS!=='undefined'){AOS.init({once:true,duration:700});}</script>
 
 </body>
-
 </html>
