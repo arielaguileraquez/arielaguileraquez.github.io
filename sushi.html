@@ -292,12 +292,11 @@ h1,h2 { color: #111; }
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-// -------------------- VARIABLES --------------------
+// -------------------- LÓGICA ORIGINAL --------------------
 const preciosBase = {
   bigpappa: { kanikama: 2500, champinon: 2800, pollo: 2800, camaron: 3000, salmon: 3500 },
   goliat: { kanikama: 3800, champinon: 4000, pollo: 4000, camaron: 4300, salmon: 4500 }
 };
-
 let carrito = [];
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
@@ -307,18 +306,22 @@ function formatPrice(n){
   return n.toLocaleString();
 }
 
-// -------------------- MODAL HANDROLL --------------------
 function calcularPrecioModal(){
   const tipo = $('#tipo').value;
   const proteinas = Array.from($$('#proteinas input:checked')).map(e=>e.value);
   const ingredientes = Array.from($$('#ingredientes input:checked')).map(e=>e.value);
   const cant = parseInt($('#cantidad').value) || 1;
   if(proteinas.length===0) return 0;
-  let precio = preciosBase[tipo][proteinas[0]]; // primera proteína incluida
-  if(proteinas.length>1) precio += (proteinas.length-1)*800; // extra proteína
+  // precio de la primera proteína según tipo
+  let precio = preciosBase[tipo][proteinas[0]];
+  // adicionales por proteínas extra
+  if(proteinas.length>1) precio += (proteinas.length-1)*800;
+  // incluidos según tipo
   const incluidos = tipo==='bigpappa'?2:3;
   ingredientes.forEach((ing,i)=>{
-    if(i>=incluidos) precio += ing==='queso_crema'?600:500;
+    if(i>=incluidos){
+      precio += ing==='queso_crema'?600:500;
+    }
   });
   return precio * cant;
 }
@@ -327,11 +330,12 @@ function actualizarPrecioModal(){
   $('#precioModal').textContent = `💰 Total: $${formatPrice(calcularPrecioModal())}`;
 }
 
-// eventos Handroll
+// vincular inputs del modal Handroll para actualizar en tiempo real
 $('#tipo').addEventListener('change', actualizarPrecioModal);
 $('#cantidad').addEventListener('input', actualizarPrecioModal);
 $$('#proteinas input,#ingredientes input').forEach(i=>i.addEventListener('change', actualizarPrecioModal));
 
+// pedidos rápidos mantienen selección
 function pedidoRapido(tipo, proteinas, ingredientes){
   $$('#proteinas input, #ingredientes input').forEach(e=>e.checked=false);
   $('#tipo').value = tipo;
@@ -347,26 +351,32 @@ function agregarAlCarrito(){
   const ingredientes = Array.from($$('#ingredientes input:checked')).map(e=>e.value);
   const cant = parseInt($('#cantidad').value) || 1;
   if(proteinas.length===0){ alert("Debes elegir al menos una proteína."); return; }
-  const precio = calcularPrecioModal() / cant;
+  // precio por unidad (precio total dividido por cantidad)
+  let precio = calcularPrecioModal() / cant;
+  // normalizamos nombre para mostrar en el carrito
   const nombreTipo = tipo==='bigpappa' ? 'Big Pappa' : 'Goliat';
+  const nombreProteinas = proteinas.join(', ');
   carrito.push({ tipo: nombreTipo, proteinas, ingredientes, cant, precio });
   mostrarCarrito();
   $('#cartCount').textContent = carrito.length;
-  bootstrap.Modal.getInstance($('#handrollModal')).hide();
+  // cerrar modal Handroll
+  const modalEl = document.getElementById('handrollModal');
+  const bs = bootstrap.Modal.getInstance(modalEl);
+  if(bs) bs.hide();
 }
 
-// -------------------- OTROS PRODUCTOS --------------------
 function agregarItemDirecto(nombre, precio){
+  // agrega con cantidad 1 y precio enviado
   carrito.push({ tipo: nombre, proteinas: [], ingredientes: [], cant: 1, precio });
   mostrarCarrito();
   $('#cartCount').textContent = carrito.length;
+  // cerrar cualquier modal abierto
   document.querySelectorAll('.modal.show').forEach(m=>{
     const inst = bootstrap.Modal.getInstance(m);
     if(inst) inst.hide();
   });
 }
 
-// -------------------- CARRITO --------------------
 function mostrarCarrito(){
   const c = $('#carrito'); c.innerHTML = ''; let total = 0;
   carrito.forEach((i,idx)=>{
@@ -384,48 +394,55 @@ function mostrarCarrito(){
     `;
   });
 
-  // costo de entrega
-  const entrega = document.querySelector('input[name="entrega"]:checked')?.value;
-  if(entrega==='reparto') total += 1000;
-  $('#total').textContent = `Total: $${formatPrice(total)}`;
-
-  // mostrar u ocultar input dirección
-  $('#direccion').style.display = entrega==='reparto' ? 'block' : 'none';
+  const entrega = document.querySelector('input[name="entrega"]:checked').value;
+  if(entrega === 'reparto' && carrito.length > 0) total += 1000;
+  $('#total').innerText = "Total: $" + formatPrice(total);
+  $('#cartCount').textContent = carrito.length;
 }
 
-function eliminar(idx){
-  carrito.splice(idx,1);
+function eliminar(i){
+  carrito.splice(i,1);
   mostrarCarrito();
   $('#cartCount').textContent = carrito.length;
 }
 
-// mostrar/ocultar carrito
-$('#cartBtn').addEventListener('click', ()=> {
-  $('#cartPanel').style.display = $('#cartPanel').style.display==='block' ? 'none' : 'block';
+// escucha cambio método entrega (muestra input direccion y recalcula)
+document.querySelectorAll('input[name="entrega"]').forEach(r=>{
+  r.addEventListener('change', ()=>{
+    $('#direccion').style.display = r.value === 'reparto' ? 'block' : 'none';
+    mostrarCarrito();
+  });
 });
 
-// actualizar total al cambiar entrega
-$$('input[name="entrega"]').forEach(r=>r.addEventListener('change', mostrarCarrito));
+// toggle panel carrito
+$('#cartBtn').addEventListener('click', ()=>{
+  const panel = $('#cartPanel');
+  panel.style.display = (panel.style.display === 'none' || panel.style.display === '') ? 'block' : 'none';
+});
 
-// -------------------- PAGAR --------------------
+// pagar (placeholder)
 function pagar(){
-  if(carrito.length===0){ alert("No hay productos en el carrito."); return; }
-  let resumen = "Resumen de tu pedido:\n\n";
-  carrito.forEach(i=>{
-    resumen += `${i.cant} x ${i.tipo} `;
-    if(i.proteinas.length) resumen += `(${i.proteinas.join(', ')}) `;
-    if(i.ingredientes.length) resumen += `+ ${i.ingredientes.join(', ')} `;
-    resumen += `- $${formatPrice(i.precio*i.cant)}\n`;
+  if(carrito.length === 0){
+    alert('Tu carrito está vacío 😅');
+    return;
+  }
+  // aquí podrías enviar al backend con fetch / form submit
+  let resumen = 'Resumen del pedido:\n';
+  let total = 0;
+  carrito.forEach(it=>{
+    resumen += `${it.cant} x ${it.tipo} - $${formatPrice(it.precio * it.cant)}\n`;
+    total += it.precio * it.cant;
   });
-  const entrega = document.querySelector('input[name="entrega"]:checked')?.value;
-  if(entrega==='reparto') resumen += "\nCosto de reparto: $1.000";
-  if(entrega==='reparto' && $('#direccion').value) resumen += `\nDirección: ${$('#direccion').value}`;
-  alert(resumen + "\n\n¡Gracias por tu compra!");
-  carrito = [];
-  mostrarCarrito();
-  $('#cartCount').textContent = carrito.length;
-  $('#cartPanel').style.display = 'none';
+  const entrega = document.querySelector('input[name="entrega"]:checked').value;
+  if(entrega === 'reparto') { total += 1000; resumen += '\nReparto: $1.000\n'; }
+  resumen += `\nTotal: $${formatPrice(total)}\n\n(Esto es una demo; integra tu pasarela o backend)`;
+  alert(resumen);
 }
+
+// inicializaciones
+actualizarPrecioModal();
+mostrarCarrito();
+
 </script>
 </body>
 </html>
