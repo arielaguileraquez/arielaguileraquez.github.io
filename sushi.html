@@ -192,20 +192,60 @@ h1,h2 { color: #111; }
 </div>
 
 <!-- 🔸 MODALES ADICIONALES (usan agregarItemDirecto o pueden extenderse) -->
-<div class="modal fade pedido-modal" id="mixtasModal" tabindex="-1">
+<div class="modal fade pedido-modal" id="mixModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
     <div class="modal-content">
-      <div class="modal-header bg-dark text-white"><h5 class="modal-title">Promos Mixtas</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-      <div class="modal-body text-center">
-        <p>Selecciona tu promo Mixta.</p>
-        <button class="btn btn-outline-dark m-2" onclick="agregarItemDirecto('Promo Mixta 10 piezas', 6000)">10 piezas - $6.000</button>
-        <button class="btn btn-outline-dark m-2" onclick="agregarItemDirecto('Promo Mixta 20 piezas', 11000)">20 piezas - $11.000</button>
-        <button class="btn btn-outline-dark m-2" onclick="agregarItemDirecto('Promo Mixta 30 piezas', 16000)">30 piezas - $16.000</button>
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title">Promos Mixtas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="pedido-rapido mb-3">
+          <h6 class="fw-bold">Pedidos rápidos 🍣</h6>
+          <button class="btn btn-outline-dark" onclick="pedidoRapidoMix('mix1')">Mix 1 (20 cortes) $8.500</button>
+          <button class="btn btn-outline-dark" onclick="pedidoRapidoMix('mix2')">Mix 2 (30 cortes) $12.000</button>
+          <button class="btn btn-outline-dark" onclick="pedidoRapidoMix('mix3')">Mix 3 (40 cortes) $15.000</button>
+          <button class="btn btn-outline-dark" onclick="pedidoRapidoMix('mix4')">Mix 4 (50 cortes) $19.000</button>
+          <button class="btn btn-outline-dark" onclick="pedidoRapidoMix('mix5')">Mix 5 (60 cortes) $22.500</button>
+          <button class="btn btn-outline-dark" onclick="pedidoRapidoMix('mix6')">Mix 6 (70 cortes) $26.000</button>
+          <button class="btn btn-outline-dark" onclick="pedidoRapidoMix('mix7')">Mix 7 (100 cortes) $37.000</button>
+        </div>
+
+        <div>
+          <h6>Proteínas (la primera incluida, extra $800):</h6>
+          <div id="proteinasMix" class="d-flex flex-column">
+            <label><input type="checkbox" value="kanikama"> Kanikama</label>
+            <label><input type="checkbox" value="pollo"> Pollo</label>
+            <label><input type="checkbox" value="camaron"> Camarón</label>
+            <label><input type="checkbox" value="salmon"> Salmón</label>
+            <label><input type="checkbox" value="champinon"> Champiñón</label>
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <h6>Ingredientes (extras: vegetales $500, queso crema $600)</h6>
+          <div id="ingredientesMix" class="d-flex flex-column">
+            <label><input type="checkbox" value="queso"> Queso</label>
+            <label><input type="checkbox" value="palta"> Palta</label>
+            <label><input type="checkbox" value="cebollin"> Cebollín</label>
+            <label><input type="checkbox" value="morron"> Morrón</label>
+            <label><input type="checkbox" value="queso_crema"> Queso Crema</label>
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <label>Cantidad</label>
+          <input id="cantidadMix" type="number" min="1" value="1" class="form-control w-25">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <p id="precioModalMix">💰 Total: $0</p>
+        <button class="btn btn-primary" onclick="agregarAlCarritoMix()">Agregar al carrito</button>
       </div>
     </div>
   </div>
 </div>
+
 
 <div class="modal fade pedido-modal" id="fritasModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
